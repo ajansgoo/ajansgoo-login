@@ -3,5 +3,11 @@
     "env": {
       "NEXT_PUBLIC_NODE_ENV": "production"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/login"
+    }
+  ]
 }
