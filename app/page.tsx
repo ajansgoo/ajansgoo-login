@@ -1,3 +1,4 @@
+// app/page.tsx
 "use client"
 
 import { useState } from "react"
@@ -35,7 +36,7 @@ export default function LoginPage() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ telefon: phone, password }) // ✅ "telefon" backend'e uygun
+        body: JSON.stringify({ telefon: phone, password }), // ✅ telefon key'i düzeltildi
         credentials: "include"
       })
 
@@ -45,7 +46,7 @@ export default function LoginPage() {
         setError(data.message || "Giriş başarısız.")
       } else {
         alert(data.message || "Giriş başarılı!")
-        // 👉 burada yönlendirme veya localStorage ile token kaydı yapılabilir
+        // TODO: localStorage, yönlendirme, state yönetimi vs.
       }
 
     } catch (err) {
