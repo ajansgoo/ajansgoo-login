@@ -1,7 +1,7 @@
-// app/page.tsx
 "use client"
 
 import { useState } from "react"
+import { api } from "@/lib/api" // 🔥 yeni eklediğimiz api.ts dosyasından çekiyoruz
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,7 +13,7 @@ export default function LoginPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!phone || !password) {
@@ -30,18 +30,23 @@ export default function LoginPage() {
     setError("")
     setLoading(true)
 
-    setTimeout(() => {
-      const demoPhone = "05550000000"
-      const demoPassword = "123456"
+    try {
+      const response = await api("login", "POST", {
+        phone: phone,
+        password: password
+      })
 
-      if (phone === demoPhone && password === demoPassword) {
-        alert("Giriş başarılı!")
-      } else {
-        setError("Telefon veya şifre hatalı.")
-      }
+      console.log(response)
+      alert("Giriş başarılı!")
 
+      // ➡️ İstersen burada kullanıcıyı yönlendirebiliriz.
+      // örnek: router.push("/dashboard")
+
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
       setLoading(false)
-    }, 1500)
+    }
   }
 
   return (
