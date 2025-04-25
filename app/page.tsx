@@ -35,7 +35,7 @@ export default function LoginPage() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ telefon: phone, password }), // ✅ "telefon" backend'e uygun
+        body: JSON.stringify({ phone, password }), // ✅ "telefon" backend'e uygun
         credentials: "include"
       })
 
