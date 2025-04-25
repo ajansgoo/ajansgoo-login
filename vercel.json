@@ -1,6 +1,7 @@
 {
-    "rewrites": [
-      { "source": "/", "destination": "/login" }
-    ]
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_NODE_ENV": "production"
+    }
   }
-  
+}
