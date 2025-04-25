@@ -15,39 +15,46 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+  
     if (!phone || !password) {
       setError("Telefon ve şifre gereklidir.")
       return
     }
-
+  
     const phoneRegex = /^05\d{9}$/
     if (!phoneRegex.test(phone)) {
       setError("Telefon numarası geçersiz.")
       return
     }
-
+  
     setError("")
     setLoading(true)
-
+  
     try {
-      const response = await api("login", "POST", {
-        phone: phone,
-        password: password
+      const response = await fetch("https://ajansgoo-api-production.up.railway.app/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ telefon: phone, password }), // ✅ DİKKAT: telefon
+        credentials: "include"
       })
-
-      console.log(response)
-      alert("Giriş başarılı!")
-
-      // ➡️ İstersen burada kullanıcıyı yönlendirebiliriz.
-      // örnek: router.push("/dashboard")
-
-    } catch (err: any) {
-      setError(err.message)
+  
+      const data = await response.json()
+  
+      if (!response.ok) {
+        setError(data.message || "Giriş başarısız.")
+      } else {
+        alert(data.message || "Giriş başarılı!")
+      }
+  
+    } catch (err) {
+      setError("Sunucu hatası.")
     } finally {
       setLoading(false)
     }
   }
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
