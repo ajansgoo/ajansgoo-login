@@ -1,22 +1,24 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 
-export default function Page() {
+export default function LoginPage() {
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!phone || !password) {
-      setError("Telefon ve şifre zorunludur.")
+      setError("Telefon ve şifre gereklidir.")
       return
     }
 
@@ -44,8 +46,7 @@ export default function Page() {
       if (!response.ok) {
         setError(data.message || "Giriş başarısız.")
       } else {
-        alert(data.message || "Giriş başarılı!")
-        window.location.href = "/"
+        router.push("/dashboard")  // ✅ Giriş başarılıysa yönlendir
       }
 
     } catch (err) {
