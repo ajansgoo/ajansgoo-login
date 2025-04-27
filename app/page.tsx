@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client"
 
 import { useState } from "react"
@@ -7,8 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 
-export default function LoginPage() {
-  const [telefon, setTelefon] = useState("")
+export default function Page() {
+  const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -16,13 +15,13 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!telefon || !password) {
-      setError("Telefon ve şifre gereklidir.")
+    if (!phone || !password) {
+      setError("Telefon ve şifre zorunludur.")
       return
     }
 
     const phoneRegex = /^05\d{9}$/
-    if (!phoneRegex.test(telefon)) {
+    if (!phoneRegex.test(phone)) {
       setError("Telefon numarası geçersiz.")
       return
     }
@@ -36,7 +35,7 @@ export default function LoginPage() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ telefon, password }),
+        body: JSON.stringify({ phone, password }),
         credentials: "include"
       })
 
@@ -46,7 +45,7 @@ export default function LoginPage() {
         setError(data.message || "Giriş başarısız.")
       } else {
         alert(data.message || "Giriş başarılı!")
-        // TODO: Burada istersen login sonrası redirect de yapılabilir.
+        window.location.href = "/"
       }
 
     } catch (err) {
@@ -62,13 +61,13 @@ export default function LoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="telefon">Telefon</Label>
+              <Label htmlFor="phone">Telefon</Label>
               <Input
-                id="telefon"
+                id="phone"
                 type="text"
                 placeholder="05xxxxxxxxx"
-                value={telefon}
-                onChange={(e) => setTelefon(e.target.value)}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </div>
             <div>
